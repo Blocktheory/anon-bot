@@ -23,6 +23,8 @@ def create_table(connection):
                 start_date DATE,
                 end_date DATE,
                 organizer VARCHAR(255),
+                description TEXT NULL,
+                image TEXT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             );
