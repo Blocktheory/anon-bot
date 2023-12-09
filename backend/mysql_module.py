@@ -10,7 +10,7 @@ def create_mysql_connection():
         'user': os.getenv("DATABASE_USER"),
         'password': os.getenv("DATABASE_PASSWORD"),
         'database': os.getenv("DATABASE_NAME"),
-        'port': 8889
+        'port': os.getenv("DATABASE_PORT")
     }
 
     try:
