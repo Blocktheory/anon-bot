@@ -36,6 +36,28 @@ def save_proof():
         connection.close()
 
 
+@app.route("/events", methods=["GET"])
+def get_events():
+    connection = create_mysql_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Insert data into the database
+        cursor.execute('select * from events')
+        columns = [column[0] for column in cursor.description]
+        objects = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return jsonify({"data":objects, "message": "Events fetched successfully!"})
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)})
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8090)
     
