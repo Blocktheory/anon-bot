@@ -1,6 +1,7 @@
-import logo from "../../public/assets/images/logo.svg";
+import logo from "../../public/images/logo.svg";
+import successIcon from "../../public/images/success_icon.png";
 
-export type TImages = "logo";
+export type TImages = "logo" | "successIcon";
 
 export type TNextImage = {
   src: string;
@@ -10,4 +11,5 @@ export type TNextImage = {
 
 export const icons: Record<TImages, TNextImage> = {
   logo,
+  successIcon,
 };

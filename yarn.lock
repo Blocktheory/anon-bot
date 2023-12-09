@@ -915,7 +915,7 @@ ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-anon-aadhaar-pcd@*:
+anon-aadhaar-pcd@*, anon-aadhaar-pcd@^0.1.13:
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/anon-aadhaar-pcd/-/anon-aadhaar-pcd-0.1.14.tgz#19c417ee40cc978b7de6b30abbf88c2973dcb61b"
   integrity sha512-gvVWFvbFp8jLrRsVLhffdOYMN6wZOAU35wiH1XuOwN/SnSwUv8+CqkhPJszw6jYSA+ACdeRtHw2lNQmqJ212kA==

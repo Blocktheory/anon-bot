@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { VerifyProof } from "../../../ui_components/verify";
 
 export const metadata: Metadata = {
   title: "Anon bot - Verify",
@@ -6,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function Verify() {
-  return <div>Verify</div>;
+  return (
+    <div className="h-full pt-10 px-6 loginBtn text-center">
+      <VerifyProof />
+    </div>
+  );
 }
