@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-import os
+import json
 
 from mysql_module import create_mysql_connection, close_mysql_connection
 
@@ -17,7 +17,7 @@ def save_proof():
 
     try:
         data = request.get_json()
-        anon_data = data['anon_data']
+        anon_data = json.dumps(data['anon_data'])
         telegram_id = data['telegram_id']
 
         # Insert data into the database
