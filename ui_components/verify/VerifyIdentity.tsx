@@ -7,6 +7,9 @@ import Image from "next/image";
 import { icons } from "../../utils/images";
 
 const VerifyIdentity: FC<any> = ({ handleUpdateStep, step }) => {
+  const handleRedirect = () => {
+    window.open("https://tathya.uidai.gov.in/login");
+  };
   return (
     <div>
       <h1 className="mb-6 text-xl font-semibold">Prove your Identity</h1>
@@ -18,7 +21,10 @@ const VerifyIdentity: FC<any> = ({ handleUpdateStep, step }) => {
         onClick={() => handleUpdateStep(step + 1)}
       />
       <p className="mb-3 text-xs text-[#888888] relative separator">Or</p>
-      <SecondaryBtn title={"Wants to Download Aadhar"} />
+      <SecondaryBtn
+        onClick={handleRedirect}
+        title={"Wants to Download Aadhar"}
+      />
     </div>
   );
 };

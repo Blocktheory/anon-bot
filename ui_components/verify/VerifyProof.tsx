@@ -9,7 +9,7 @@ import {
 } from ".";
 
 const VerifyProof: FC<any> = () => {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
 
   const handleUpdateStep = (step: number) => {
     setStep(step);

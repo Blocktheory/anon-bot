@@ -13,7 +13,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AnonAadhaarProvider _appId="1233434">
-          <main className="mx-auto h-[100dvh] overflow-y-auto">{children}</main>
+          <main className="mx-auto w-full h-[100dvh] overflow-y-auto">
+            {children}
+          </main>
         </AnonAadhaarProvider>
       </body>
     </html>
