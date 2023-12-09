@@ -5,19 +5,23 @@ import "./globals.css";
 import { AnonAadhaarProvider } from "anon-aadhaar-react";
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>
-        <AnonAadhaarProvider _appId="1233434">
-          <main className="mx-auto w-full h-[100dvh] overflow-y-auto">
-            {children}
-          </main>
-        </AnonAadhaarProvider>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>
+                <AnonAadhaarProvider
+                    _appId="1233434"
+                    _testing={true}
+                    _isWeb={true}
+                >
+                    <main className="mx-auto w-full h-[100dvh] overflow-y-auto">
+                        {children}
+                    </main>
+                </AnonAadhaarProvider>
+            </body>
+        </html>
+    );
 }

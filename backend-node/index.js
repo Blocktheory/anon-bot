@@ -1,6 +1,6 @@
 
 require('dotenv').config();
-
+const WEB_APP_URL = "https://t.me/anonethindiabot/verify";
 let events =
     [{
         title: "Eth India",
@@ -20,10 +20,19 @@ let events =
     }];
 
 const { Telegraf, Markup } = require('telegraf')
-const { message } = require('telegraf/filters')
+const { message } = require('telegraf/filters');
+const { registerEvent } = require('./contractcalls');
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
-bot.start((ctx) => ctx.reply('Welcome, lets get you started. But first we need to verify the user'))
+bot.start((ctx) => {
+
+
+    ctx.reply(`Welcome, lets get you started. But first we need to verify the user ${WEB_APP_URL}`)
+    // ctx.reply(
+    //     "Verify User using Anon Aadhar",
+    //     Markup.inlineKeyboard([Markup.button.webApp("Start", "https://t.me/anonethindiabot/verify")]),
+    // )
+})
 bot.help((ctx) => ctx.reply('Send me a sticker'))
 bot.on(message('sticker'), (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
@@ -43,7 +52,7 @@ bot.command('registered', (ctx) => {
     const keyboard = Markup.inlineKeyboard(
         events.map(event => Markup.button.callback(event.title, event.id))
     );
-    ctx.reply("Here is the keybaord", keyboard)
+    ctx.reply("Here are the events:", keyboard)
 });
 
 bot.on('callback_query', async (ctx) => {
@@ -52,8 +61,10 @@ bot.on('callback_query', async (ctx) => {
     if (!event) {
         const jdata = JSON.parse(data);
         if (jdata?.type == 'register') {
-            console.log(ctx, jdata?.id);
             // HERE CALL FOR REGISTRATION OF EVENT
+            const username = ctx.update.callback_query.from.username;
+
+            registerEvent({ eventId: jdata.id, telegramId: username });
             ctx.reply(`You are registered ${jdata?.id}!`);
         }
         else {

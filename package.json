@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "anon-aadhaar-react": "^0.1.14",
     "anon-aadhaar-pcd": "^0.1.13",
+    "anon-aadhaar-react": "^0.1.14",
+    "ethers": "^6.9.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "viem": "^1.19.11"
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.16",
