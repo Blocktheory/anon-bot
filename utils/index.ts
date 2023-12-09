@@ -1,9 +1,9 @@
 import { TResponse } from "../types";
-import { globalGetService } from "./globalApiServices";
+import { globalPostService } from "./globalApiServices";
 
-export const apiCall = (query: any): Promise<TResponse<any[]>> => {
+export const postProofData = (data: any): Promise<TResponse<any[]>> => {
   return new Promise((resolve, reject) => {
-    globalGetService<null, any[]>(``, null, "blockTheory")
+    globalPostService<null, any[]>(`proof/accept`, data, "anon")
       .then((response) => {
         const _response = {
           ...response,

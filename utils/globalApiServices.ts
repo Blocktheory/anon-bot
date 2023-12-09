@@ -5,7 +5,7 @@ import { TResponse } from "../types";
 export const globalGetService = <TParamType, U>(
   url: string,
   params: TParamType,
-  instance: keyof typeof API_INSTANCES = "blockTheory"
+  instance: keyof typeof API_INSTANCES = "anon"
 ): Promise<TResponse<U>> => {
   return new Promise(function (resolve, reject) {
     API_INSTANCES[instance]({
@@ -32,7 +32,7 @@ export const globalApiService = <TDataType, TApiResponse>(
   url: string,
   data: TDataType,
   method: string,
-  instance: keyof typeof API_INSTANCES = "blockTheory"
+  instance: keyof typeof API_INSTANCES = "anon"
 ): Promise<TResponse<TApiResponse>> => {
   return new Promise(function (resolve, reject) {
     API_INSTANCES[instance]({
@@ -46,6 +46,32 @@ export const globalApiService = <TDataType, TApiResponse>(
           statusCode: response.status,
           message: response.statusText,
         };
+        resolve(_response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const globalPostService = <TParamType, U>(
+  url: string,
+  data: TParamType,
+  instance: keyof typeof API_INSTANCES = "anon"
+): Promise<TResponse<U>> => {
+  return new Promise(function (resolve, reject) {
+    API_INSTANCES[instance]({
+      method: "POST",
+      url: url,
+      data: data,
+    })
+      .then((response: AxiosResponse<U>) => {
+        const _response: TResponse<U> = {
+          data: response.data,
+          statusCode: response.status,
+          message: response.statusText,
+        };
+
         resolve(_response);
       })
       .catch((error) => {

@@ -4,7 +4,7 @@ import { FC } from "react";
 import Image from "next/image";
 import { icons } from "../../utils/images";
 
-const VerificationSuccess: FC<any> = ({ handleUpdateStep, step }) => {
+const VerificationSuccess: FC<any> = () => {
   return (
     <div>
       <h4 className="mb-6 text-xl font-semibold">Verification Successful</h4>

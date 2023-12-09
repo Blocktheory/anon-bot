@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 
-const Verifying: FC<any> = ({ handleUpdateStep, step }) => {
+const Verifying: FC<any> = () => {
   return (
     <div>
       <h3 className="mb-6 text-xl font-semibold">Verifying ID</h3>

@@ -2,18 +2,17 @@
 import axios, {
   AxiosError,
   AxiosInstance,
-  AxiosRequestHeaders,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
 
+import { ANON_API_BASE_URL } from "../constants";
 import { TApiResponse } from "../types";
 
-export const API_BASE_URL: string | undefined =
-  "https://api.blio.blocktheory.com/api";
+export const API_BASE_URL: string | undefined = ANON_API_BASE_URL;
 
 //@ts-ignore
-function axiosInstanceCreator(baseURL: string | undefined, accessKey?: string) {
+function axiosInstanceCreator(baseURL: string | undefined) {
   const axiosInstance: AxiosInstance = axios.create();
   axiosInstance.defaults.baseURL = baseURL;
   axiosInstance.interceptors.request.use(
@@ -42,9 +41,9 @@ function axiosInstanceCreator(baseURL: string | undefined, accessKey?: string) {
   return axiosInstance;
 }
 
-const blockTheoryInstance = axiosInstanceCreator(API_BASE_URL);
+const anonInstance = axiosInstanceCreator(API_BASE_URL);
 
 export const API_INSTANCES = {
-  blockTheory: blockTheoryInstance,
+  anon: anonInstance,
 };
 export default API_INSTANCES;
