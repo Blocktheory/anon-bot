@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   VerificationSuccess,
   VerifyAadhaar,
@@ -11,9 +11,22 @@ import {
 const VerifyProof: FC<any> = () => {
   const [step, setStep] = useState(1);
 
+  const [tgUsername, setTgUserName] = useState();
+
   const handleUpdateStep = (step: number) => {
     setStep(step);
   };
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash.slice(1));
+
+    const initDataRaw = params.get("tgWebAppData") as any;
+    const initData = new URLSearchParams(initDataRaw) as any;
+    const userData = JSON.parse(initData.get("user"));
+    const tgUsername = userData?.username;
+    setTgUserName(tgUsername);
+    console.log(tgUsername, "tgUsername");
+  }, []);
+
   return (
     <div>
       {step === 1 ? (
