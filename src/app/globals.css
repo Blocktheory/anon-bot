@@ -34,7 +34,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 main {
-  width: 420px;
+  width: 412px;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 .hide-scrollbar::-webkit-scrollbar {
