@@ -80,12 +80,12 @@ async def registered(update: Update, context:ContextTypes.DEFAULT_TYPE ):
 #         )
 
 async def handle_callback_query(update, context):
-    name = update.callback_query.data
-    connection = create_mysql_connection()
-    options = fetch_event(connection,name)
+    # name = update.callback_query.data
+    # connection = create_mysql_connection()
+    # options = fetch_event(connection,name)
 
-    print(options.name)
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='[handle_callback_query] callback data: ' +options.name)
+    # print(options.name)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text='[handle_callback_query] callback data: ')
 
 
 
