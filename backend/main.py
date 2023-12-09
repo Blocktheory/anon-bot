@@ -39,6 +39,7 @@ def fetch_events(connection):
     finally:
         cursor.close()
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Hi, Welcome to Anon Bot")
     connection = create_mysql_connection()
@@ -46,11 +47,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 
 async def events(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    options = fetch_events(connection).split(",")
+    keyboard = [[InlineKeyboardButton(name, callback_data=name)] for name in options]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text('Choose an event:')
+
+async def registered(update: Update, context:ContextTypes.DEFAULT_TYPE ):
     connection = create_mysql_connection()
     options = fetch_events(connection).split(",")
     keyboard = [[InlineKeyboardButton(name, callback_data=name)] for name in options]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text('Choose an event:', reply_markup=reply_markup)
+    await update.message.reply_text('Check in to an event :', reply_markup=reply_markup)
     
 
 if __name__ == '__main__':
@@ -60,7 +67,8 @@ if __name__ == '__main__':
     start_handler = CommandHandler('start', start)
     # application.add_handler(start_handler)
     
-    events_handler = CommandHandler('events', events)
-    application.add_handlers([start_handler, events_handler])
+    events_handler = CommandHandler('events', events);
+    register_handler = CommandHandler('registered', events);
+    application.add_handlers([start_handler, events_handler, register_handler])
     
     application.run_polling()
