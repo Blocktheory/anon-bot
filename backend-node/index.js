@@ -48,7 +48,7 @@ bot.command('events', (ctx) => {
     const keyboard = Markup.inlineKeyboard(
         events.map(event => Markup.button.callback(event.title, event.id))
     );
-    ctx.reply("Here is the keybaord", keyboard)
+    ctx.reply("Here are the events you can register to: ", keyboard)
 });
 
 bot.command('registered', async (ctx) => {
@@ -71,7 +71,7 @@ bot.command('registered', async (ctx) => {
         result.map(event => Markup.button.callback(event.name, JSON.stringify({ id: event.id, type: 'QR' })))
     );
 
-    ctx.reply("Here are the events:", keyboard)
+    ctx.reply("Here are the events that you have registered:", keyboard)
 });
 
 bot.on('callback_query', async (ctx) => {
@@ -109,16 +109,6 @@ bot.on('callback_query', async (ctx) => {
     }
 
 });
-
-bot.action('register', (ctx) => {
-    // Handle registration here
-    ctx.answerCbQuery('Test');
-});
-
-
-
-
-bot.command('verify', (ctx) => ctx.reply())
 
 bot.launch()
 
