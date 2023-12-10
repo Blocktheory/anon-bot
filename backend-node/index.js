@@ -1,6 +1,7 @@
 
 require('dotenv').config();
 const WEB_APP_URL = "https://t.me/anonethindiabot/verify";
+const QR_CODE_URL = "https://t.me/anonethindiabot/QRCode"
 let events =
     [{
         title: "Eth India",
@@ -27,16 +28,16 @@ const getEvents = require('./contractcalls').getEvents;
 const registerEvent = require('./contractcalls').registerEvent;
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
-bot.start((ctx) => {
-
-
-    ctx.reply(`Welcome, lets get you started. But first we need to verify the user ${WEB_APP_URL}`)
-    // ctx.reply(
-    //     "Verify User using Anon Aadhar",
-    //     Markup.inlineKeyboard([Markup.button.webApp("Start", "https://t.me/anonethindiabot/verify")]),
-    // )
+bot.start(async (ctx) => {
+    const telegramId = ctx.update.message.from.username;
+    const res = await getEvents({ telegramId });
+    if (res.length == 0) {
+        ctx.reply(`Welcome, lets get you started. But first we need to verify the user ${WEB_APP_URL}`)
+    } else {
+        ctx.reply('Welcome back! You can check the upcoming events (/events) and registered events from the commands menu. (/registered)')
+    }
 })
-bot.help((ctx) => ctx.reply('Send me a sticker'))
+bot.help((ctx) => ctx.reply('Reach out to @chandherThunder'))
 bot.on(message('sticker'), (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
@@ -85,16 +86,8 @@ bot.on('callback_query', async (ctx) => {
             registerEvent({ eventId: jdata.id, telegramId: username });
             ctx.reply(`You are registered ${jdata?.id}!`);
         } else if (jdata?.type == 'QR') {
-            QRCode.toDataURL(username, async function (err, url) {
-                console.log(url)
-                await ctx.replyWithPhoto(
-                    { url: url },
-                    {
-                        caption: "Your check-in QR Code",
-                        parse_mode: 'MarkdownV2'
-                    }
-                );
-            })
+            const event = events.find(event => event.id == jdata.id)
+            ctx.reply(`You have registered ${event.title}, here is your Check in QR Code: ${QR_CODE_URL}`);
         }
         else {
             ctx.reply(`Could not find the event`);
