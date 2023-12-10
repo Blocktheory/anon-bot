@@ -12,7 +12,7 @@ export default function QR() {
         const initDataRaw = params.get("tgWebAppData") as any;
         const initData = new URLSearchParams(initDataRaw) as any;
         const userData = JSON.parse(initData.get("user"));
-        const telegramId = userData?.id;
+        const telegramId = userData?.username;
         setTelegramId(telegramId);
     }, []);
     return (
