@@ -40,29 +40,55 @@
 
 const ethers = require('ethers');
 require('dotenv').config();
-
-// Replace with your private key
-let privateKey = "0x0123456789012345678901234567890123456789012345678901234567890123";
-
-// Create a wallet instance
-let wallet = new ethers.Wallet(privateKey);
-
-// Connect the wallet to the Base Goerli testnet
+let contractAbi = require('./abi').ABI;
+let contractAddress = '0xf782D6F97f36D5ce311982841cFb3299C4bce98F';
+let privateKey = process.env.PRIVATE_KEY;
 let url = 'https://goerli.base.org';
-let provider = new ethers.providers.JsonRpcProvider(url);
-let walletWithProvider = new ethers.Wallet(privateKey, provider);
 
-// Replace with your contract address and ABI
-let contractAddress = '';
-let contractAbi = [];
+exports.registerEvent = async ({ eventId, telegramId }) => {
 
-// Create a new contract instance
-let contract = new ethers.Contract(contractAddress, contractAbi, walletWithProvider);
+    // Connect the wallet to the Base Goerli testnet
+    let provider = new ethers.providers.JsonRpcProvider(url);
+    let walletWithProvider = new ethers.Wallet(privateKey, provider);
 
-// Call the function
-const result = await contract.yourFunction('param1', 'param2');
-console.log(result);
+    // Replace with your contract address and ABI
+    // Create a new contract instance
+    let contract = new ethers.Contract(contractAddress, contractAbi, walletWithProvider);
+
+    // Call the function
+    try {
+        const result = await contract.register(eventId, telegramId);
+        console.log(result);
+    }
+    catch (e) {
+        console.log('Already registered!')
+        return null;
+    }
+
+};
+
+exports.getEvents = async ({ telegramId }) => {
+
+    // Connect the wallet to the Base Goerli testnet
+    let provider = new ethers.providers.JsonRpcProvider(url);
+    let walletWithProvider = new ethers.Wallet(privateKey, provider);
+
+    // Replace with your contract address and ABI
+    // Create a new contract instance
+    let contract = new ethers.Contract(contractAddress, contractAbi, walletWithProvider);
+
+    // Call the function
+
+    try {
+        const result = await contract.getListOfUsers(telegramId);
+        console.log(result);
+        return result;
+    }
+    catch (e) {
+        console.log('Already registered!');
+        return null;
+    }
 
 
-
+};
 

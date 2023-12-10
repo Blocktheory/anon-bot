@@ -19,9 +19,12 @@ let events =
         id: "3"
     }];
 
+
+const QRCode = require('qrcode')
 const { Telegraf, Markup } = require('telegraf')
 const { message } = require('telegraf/filters');
-const { registerEvent } = require('./contractcalls');
+const getEvents = require('./contractcalls').getEvents;
+const registerEvent = require('./contractcalls').registerEvent;
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 bot.start((ctx) => {
@@ -47,11 +50,26 @@ bot.command('events', (ctx) => {
     ctx.reply("Here is the keybaord", keyboard)
 });
 
-bot.command('registered', (ctx) => {
+bot.command('registered', async (ctx) => {
     // HERE CALL FOR REGISTERED EVENTS
+    const telegramId = ctx.update.message.from.username;
+
+    const res = await getEvents({ telegramId });
+    const result = [];
+    res.forEach(contract => {
+        let id = contract[0].toString();
+        let name = contract[1];
+        let creator = contract[2];
+
+        console.log(`ID: ${id}, Name: ${name}, Creator: ${creator}`);
+        result.push({ name: name, id: id })
+    });
+
+
     const keyboard = Markup.inlineKeyboard(
-        events.map(event => Markup.button.callback(event.title, event.id))
+        result.map(event => Markup.button.callback(event.name, JSON.stringify({ id: event.id, type: 'QR' })))
     );
+
     ctx.reply("Here are the events:", keyboard)
 });
 
@@ -60,12 +78,23 @@ bot.on('callback_query', async (ctx) => {
     const event = events.find(event => event.id == data)
     if (!event) {
         const jdata = JSON.parse(data);
+        const username = ctx.update.callback_query.from.username;
         if (jdata?.type == 'register') {
             // HERE CALL FOR REGISTRATION OF EVENT
-            const username = ctx.update.callback_query.from.username;
 
             registerEvent({ eventId: jdata.id, telegramId: username });
             ctx.reply(`You are registered ${jdata?.id}!`);
+        } else if (jdata?.type == 'QR') {
+            QRCode.toDataURL(username, async function (err, url) {
+                console.log(url)
+                await ctx.replyWithPhoto(
+                    { url: url },
+                    {
+                        caption: "Your check-in QR Code",
+                        parse_mode: 'MarkdownV2'
+                    }
+                );
+            })
         }
         else {
             ctx.reply(`Could not find the event`);
