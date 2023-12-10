@@ -134,7 +134,7 @@ const VerifyAadhaar: FC<any> = ({ handleUpdateStep, step, telegramId }) => {
             ) : (
                 <>
                     <h2 className="mb-6 text-xl font-semibold">
-                        Prove your Identity 1
+                        Prove your Identity
                     </h2>
                     <p className="text-sm mb-6">
                         Anon Aadhaar securely verifies your document by

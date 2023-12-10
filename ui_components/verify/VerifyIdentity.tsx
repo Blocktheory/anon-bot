@@ -8,7 +8,7 @@ import { icons } from "../../utils/images";
 
 const VerifyIdentity: FC<any> = ({ handleUpdateStep, step }) => {
     const handleRedirect = () => {
-        window.open("https://tathya.uidai.gov.in/login");
+        window.open("https://myaadhaar.uidai.gov.in/");
     };
     return (
         <div>
